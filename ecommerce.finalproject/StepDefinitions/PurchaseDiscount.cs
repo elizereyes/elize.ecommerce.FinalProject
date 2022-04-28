@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System;
 using TechTalk.SpecFlow;
+using ecommerce.finalproject.POMs;
 
 namespace ecommerce.finalproject.StepDefinitions
 
@@ -22,9 +23,6 @@ namespace ecommerce.finalproject.StepDefinitions
         
         private readonly ScenarioContext _scenarioContext;
 
-        string baseURL = "https://www.edgewordstraining.co.uk/"; //baseURL for easier referencing
-
-
         public StepDefinitions(ScenarioContext scenarioContext)
         {
            
@@ -36,13 +34,17 @@ namespace ecommerce.finalproject.StepDefinitions
         public void GivenThatIAmLoggedIn()
         {
             //Navigates to the log in page
-            driver.Url = baseURL + "demo-site/my-account/";
+            string BaseUrl = Environment.GetEnvironmentVariable("BaseURL");
+            driver.Url = BaseUrl;
 
-            //Login with username and password
-            driver.FindElement(By.Id("username")).SendKeys("elize.reyes@nfocus.co.uk");
-            driver.FindElement(By.Id("password")).SendKeys("Pr0j3c7PW0rd");
-            //Clicks on the login button
-            driver.FindElement(By.CssSelector("[name=login]")).Click();
+            LoginPass_POM Login = new LoginPass_POM(driver);
+            Login.Login(Environment.GetEnvironmentVariable("userName"));
+
+            LoginPass_POM Pass = new LoginPass_POM(driver);
+            Login.Pass(Environment.GetEnvironmentVariable("passWord"));
+
+
+            Thread.Sleep(1000);
 
         }
 
@@ -50,27 +52,23 @@ namespace ecommerce.finalproject.StepDefinitions
         public void WhenIAddAnItemIntoMyCart()
         {
             //After logging in, will navigate to the shop page
-            driver.FindElement(By.LinkText("Shop")).Click();
-            driver.FindElement(By.PartialLinkText("Hoodie with Logo")).Click();
-            driver.FindElement(By.CssSelector("[name=add-to-cart]")).Click();
-            driver.FindElement(By.LinkText("Cart")).Click(); //Goes to the cart
-
-
+            Cart_POM Add = new Cart_POM(driver);
+            Add.AddHoodie();
         }
 
         [When(@"provide a discount code")]
         public void WhenProvideADiscountCode()
         {
-            IWebElement discount = driver.FindElement(By.CssSelector("input#coupon_code"));
-            discount.SendKeys("edgewords");
-            discount.SendKeys(Keys.Enter);
+            Discount_POM discount = new Discount_POM(driver);
+            discount.EnterDiscount("edgewords");
+
+            Thread.Sleep(2000);
         }
 
         [Then(@"my total should update correctly")]
         public void ThenMyTotalShouldUpdateCorrectly()
         {
-            Assert.That(driver.FindElement(By.ClassName("woocommerce-message")).Displayed);
-            Console.WriteLine("Discount code applied");
+           
         }
     }
 }

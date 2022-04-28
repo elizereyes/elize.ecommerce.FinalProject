@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ecommerce.finalproject.POMs;
+
 
 namespace ecommerce.finalproject
 {
@@ -29,10 +31,15 @@ namespace ecommerce.finalproject
         [After]
         public void TearDown()
         {
-            //driver.Quit();
+
+            TopNav_POM account = new TopNav_POM(driver);
+            account.MyAccount();
+            driver.FindElement(By.CssSelector("#post-7 > div > div > nav > ul > li.woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--customer-logout > a"))
+
+
 
             IWebDriver sharedDriver = (IWebDriver)_scenarioContext["webdriver"];
-            sharedDriver.Quit();
+           // sharedDriver.Quit();
         }
     }
 }
