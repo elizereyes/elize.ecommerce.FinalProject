@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ecommerce.finalproject.POMs;
 
 
 namespace ecommerce.finalproject
@@ -27,18 +26,19 @@ namespace ecommerce.finalproject
         {
            driver = new ChromeDriver();
            _scenarioContext["webdriver"] = driver;
+
+            //Navigates to the log in page
+            string BaseUrl = Environment.GetEnvironmentVariable("BaseURL");
+            driver.Url = BaseUrl;
         }
+
         [After]
         public void TearDown()
         {
+            driver.FindElement(By.Id("menu-item-46")).Click();
+            driver.FindElement(By.PartialLinkText("Log out")).Click();
 
-            TopNav_POM account = new TopNav_POM(driver);
-            account.MyAccount();
-            driver.FindElement(By.CssSelector("#post-7 > div > div > nav > ul > li.woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--customer-logout > a"))
-
-
-
-            IWebDriver sharedDriver = (IWebDriver)_scenarioContext["webdriver"];
+            //IWebDriver sharedDriver = (IWebDriver)_scenarioContext["webdriver"];
            // sharedDriver.Quit();
         }
     }

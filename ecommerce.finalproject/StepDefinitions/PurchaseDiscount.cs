@@ -28,15 +28,13 @@ namespace ecommerce.finalproject.StepDefinitions
            
             _scenarioContext = scenarioContext;
             driver = (IWebDriver)_scenarioContext["webdriver"];
+
         }
-        
+
         [Given(@"that I am logged in")]
         public void GivenThatIAmLoggedIn()
         {
-            //Navigates to the log in page
-            string BaseUrl = Environment.GetEnvironmentVariable("BaseURL");
-            driver.Url = BaseUrl;
-
+            
             LoginPass_POM Login = new LoginPass_POM(driver);
             Login.Login(Environment.GetEnvironmentVariable("userName"));
 
