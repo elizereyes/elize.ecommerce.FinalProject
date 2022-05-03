@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System;
 using TechTalk.SpecFlow;
 using ecommerce.finalproject.POMs;
+using OpenQA.Selenium.Support.UI;
 
 namespace ecommerce.finalproject.StepDefinitions
 
@@ -19,26 +20,26 @@ namespace ecommerce.finalproject.StepDefinitions
     public class StepDefinitions
     {
 
-        IWebDriver driver;         
-        
+        IWebDriver driver;
+
         private readonly ScenarioContext _scenarioContext;
 
         public StepDefinitions(ScenarioContext scenarioContext)
         {
-           
+
             _scenarioContext = scenarioContext;
             driver = (IWebDriver)_scenarioContext["webdriver"];
 
         }
 
+        //Test case 1
         [Given(@"that I am logged in")]
         public void GivenThatIAmLoggedIn()
         {
-            
-            LoginPass_POM Login = new LoginPass_POM(driver);
-            Login.Login(Environment.GetEnvironmentVariable("userName"));
 
-            LoginPass_POM Pass = new LoginPass_POM(driver);
+            LoginPass_POM Login = new LoginPass_POM(driver);
+            Login.Notice();
+            Login.Login(Environment.GetEnvironmentVariable("userName"));
             Login.Pass(Environment.GetEnvironmentVariable("passWord"));
 
 
@@ -61,12 +62,38 @@ namespace ecommerce.finalproject.StepDefinitions
             discount.EnterDiscount("edgewords");
 
             Thread.Sleep(2000);
+
+            discount.CheckCouponPercentIsCorrect(15); //checks if 15% is applied
         }
 
         [Then(@"my total should update correctly")]
         public void ThenMyTotalShouldUpdateCorrectly()
         {
-           
+
+            Cart_POM Cart = new Cart_POM(driver);
+            Cart.CheckTotal();
+
         }
+
+
+        //Test case 2
+        [When(@"I provide valid billing details")]
+        public void WhenIProvideValidBillingDetails()
+        {
+            Checkout_POM Checkout = new Checkout_POM(driver);
+            Checkout.BillingDetails();
+            Checkout.OrderNo();
+
+        }
+
+        [Then(@"my order should show up in the order history")]
+        public void OrderinHistory()
+        {
+            OrderHistory_POM History = new OrderHistory_POM(driver);
+            History.Navigate();
+            History.CheckOrder();
+        }
+
+
     }
 }

@@ -19,8 +19,15 @@ namespace ecommerce.finalproject.POMs
         public IWebElement userName => driver.FindElement(By.Id("username"));
         public IWebElement passWord => driver.FindElement(By.Id("password"));
         public IWebElement logIn => driver.FindElement(By.CssSelector("[name=login]"));
+        public IWebElement demoNotice => driver.FindElement(By.ClassName("woocommerce-store-notice__dismiss-link"));
 
         //Service Methods
+        public LoginPass_POM Notice()
+        {
+            demoNotice.Click();
+            return this;
+        }
+
         public LoginPass_POM Login(String username)
         {
             userName.Click();

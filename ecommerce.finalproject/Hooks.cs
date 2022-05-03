@@ -35,11 +35,11 @@ namespace ecommerce.finalproject
         [After]
         public void TearDown()
         {
-            driver.FindElement(By.Id("menu-item-46")).Click();
-            driver.FindElement(By.PartialLinkText("Log out")).Click();
+          // driver.FindElement(By.Id("menu-item-46")).Click();
+          // driver.FindElement(By.PartialLinkText("Log out")).Click();
 
-            //IWebDriver sharedDriver = (IWebDriver)_scenarioContext["webdriver"];
-           // sharedDriver.Quit();
+          // IWebDriver sharedDriver = (IWebDriver)_scenarioContext["webdriver"];
+          // sharedDriver.Quit();
         }
-    }
+    } 
 }
