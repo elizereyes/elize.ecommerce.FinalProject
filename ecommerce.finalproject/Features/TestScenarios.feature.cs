@@ -28,7 +28,7 @@ namespace ecommerce.finalproject.Features
         
         private static string[] featureTags = ((string[])(null));
         
-#line 1 "PurchaseDiscount.feature"
+#line 1 "TestScenarios.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
