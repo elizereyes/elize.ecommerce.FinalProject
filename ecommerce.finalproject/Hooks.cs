@@ -25,8 +25,8 @@ namespace ecommerce.finalproject
         [Before]
         public void SetUp()
         {
-           driver = new ChromeDriver();
-           _scenarioContext["webdriver"] = driver;
+            driver = new ChromeDriver();
+            _scenarioContext["webdriver"] = driver; //gets the driver
 
             //Navigates to the log in page
             string BaseUrl = Environment.GetEnvironmentVariable("BaseURL"); //uses the runsettings baseurl
@@ -34,7 +34,6 @@ namespace ecommerce.finalproject
         }
 
 
-   
         IWebElement removeCoupon => driver.FindElement(By.CssSelector(".woocommerce-remove-coupon"));
         IWebElement removeItem => driver.FindElement(By.CssSelector(".remove"));
 

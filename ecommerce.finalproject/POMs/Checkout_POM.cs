@@ -12,10 +12,14 @@ namespace ecommerce.finalproject.POMs
     public class Checkout_POM
     {
         IWebDriver driver;
+
         public Checkout_POM(IWebDriver driver)
         {
+            
             this.driver = driver;
         }
+
+       
 
         //Locators
         public IWebElement proceedCheckout => driver.FindElement(By.LinkText("Proceed to checkout"));
@@ -30,21 +34,21 @@ namespace ecommerce.finalproject.POMs
 
 
         //Service Method
-        public void BillingDetails()
+        public void BillingDetails(UserDetails userDetails)
         {
             proceedCheckout.Click();
             firstName.Clear(); //makes sure the box is empty before continuing
-            firstName.SendKeys(Environment.GetEnvironmentVariable("FirstName"));
+            firstName.SendKeys(userDetails.firstName);
             lastName.Clear();
-            lastName.SendKeys(Environment.GetEnvironmentVariable("LastName"));
+            lastName.SendKeys(userDetails.lastName);
             streetAddress.Clear();
-            streetAddress.SendKeys(Environment.GetEnvironmentVariable("StreetAddress"));
+            streetAddress.SendKeys(userDetails.streetAddress);
             city.Clear();
-            city.SendKeys(Environment.GetEnvironmentVariable("City"));
+            city.SendKeys(userDetails.city);
             postCode.Clear();
-            postCode.SendKeys(Environment.GetEnvironmentVariable("PostCode"));
+            postCode.SendKeys(userDetails.postCode);
             phoneNo.Clear();
-            phoneNo.SendKeys(Environment.GetEnvironmentVariable("PhoneNo"));
+            phoneNo.SendKeys(userDetails.phoneNo);
             Thread.Sleep(1000); //waits for the check payments icon to be selected before continuing to place the order
             placeOrder.Click();
         }

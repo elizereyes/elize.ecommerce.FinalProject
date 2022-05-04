@@ -11,6 +11,7 @@ using System;
 using TechTalk.SpecFlow;
 using ecommerce.finalproject.POMs;
 using OpenQA.Selenium.Support.UI;
+using TechTalk.SpecFlow.Assist;
 
 namespace ecommerce.finalproject.StepDefinitions
 
@@ -24,12 +25,21 @@ namespace ecommerce.finalproject.StepDefinitions
 
         private readonly ScenarioContext _scenarioContext;
 
-        public StepDefinitions(ScenarioContext scenarioContext)
+        private UserDetails _userDetails;
+
+
+        public StepDefinitions(ScenarioContext scenarioContext, UserDetails userDetails)
         {
-
             _scenarioContext = scenarioContext;
-            driver = (IWebDriver)_scenarioContext["webdriver"];
+            _userDetails = userDetails;
+            driver = (IWebDriver)_scenarioContext["webdriver"]; //gets driver
 
+        }
+
+        [Given(@"these details")]
+        public void GivenTheseDetails(Table table)
+        {
+            _userDetails = table.CreateInstance<UserDetails>(); //customer details 
         }
 
         //Test case 1
@@ -79,7 +89,7 @@ namespace ecommerce.finalproject.StepDefinitions
         public void WhenIProvideValidBillingDetails()
         {
             Checkout_POM Checkout = new Checkout_POM(driver);
-            Checkout.BillingDetails(); //fills in the billing details and places the order
+            Checkout.BillingDetails(_userDetails); //fills in the billing details and places the order
 
         }
 
