@@ -29,6 +29,7 @@ namespace ecommerce.finalproject.POMs
         //Service Method
         public void AddHoodie()
         {
+            //adding Hoodie with Logo into Cart 
             shop.Click();
             clickItem.Click();
             addCart.Click();
@@ -37,7 +38,9 @@ namespace ecommerce.finalproject.POMs
 
         public void CheckTotal()
         {
+            //working out the expected total of the whole order
             Decimal expectedTotal = Decimal.Parse(subtotalValue.Text.Substring(1)) - Decimal.Parse(couponValue.Text.Substring(1)) + Decimal.Parse(shippingValue.Text.Substring(1));
+           //working out if the total value shown is the same as the expected total, if not will show an error message
             Assert.That(Decimal.Parse(totalValue.Text.Substring(1)), Is.EqualTo(expectedTotal), String.Format("Total should be {0} but the Total was {1}", expectedTotal, totalValue.Text.Substring(1)));
         }
 

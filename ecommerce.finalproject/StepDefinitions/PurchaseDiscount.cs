@@ -38,12 +38,12 @@ namespace ecommerce.finalproject.StepDefinitions
         {
 
             LoginPass_POM Login = new LoginPass_POM(driver);
-            Login.Notice();
-            Login.Login();
-            Login.Pass();
+            Login.Notice(); //dismisses the notice which states that the website is for demo purposes
+            Login.Login(); //log in with username
+            Login.Pass(); //finds and inputs the password
 
 
-            Thread.Sleep(1000);
+            Thread.Sleep(1000); //used a thread sleep so that the website has time to successfully log in before going to next step
 
         }
 
@@ -52,7 +52,7 @@ namespace ecommerce.finalproject.StepDefinitions
         {
             //After logging in, will navigate to the shop page
             Cart_POM Add = new Cart_POM(driver);
-            Add.AddHoodie();
+            Add.AddHoodie(); //adds the hoodie with logo to cart and views the cart
         }
 
         [When(@"provide a discount code")]
@@ -70,7 +70,7 @@ namespace ecommerce.finalproject.StepDefinitions
         public void ThenMyTotalShouldUpdateCorrectly()
         {
             Cart_POM Cart = new Cart_POM(driver);
-            Cart.CheckTotal();
+            Cart.CheckTotal(); //checks the total of order
         }
 
 
@@ -79,7 +79,7 @@ namespace ecommerce.finalproject.StepDefinitions
         public void WhenIProvideValidBillingDetails()
         {
             Checkout_POM Checkout = new Checkout_POM(driver);
-            Checkout.BillingDetails();
+            Checkout.BillingDetails(); //fills in the billing details and places the order
 
         }
 
@@ -87,11 +87,11 @@ namespace ecommerce.finalproject.StepDefinitions
         public void OrderinHistory()
         {
             Checkout_POM Checkout = new Checkout_POM(driver);
-            int checkoutOrderNo = Checkout.GetOrderNo();
+            int checkoutOrderNo = Checkout.GetOrderNo(); //finds the order number and writes out the results in the test
 
             OrderHistory_POM History = new OrderHistory_POM(driver);
             History.Navigate(); //navigates to the order history 
-            History.CheckNewOrder(checkoutOrderNo);
+            History.CheckNewOrder(checkoutOrderNo); //checks the order history to see if it matches the order no provided at checkout
         }
     }
 }

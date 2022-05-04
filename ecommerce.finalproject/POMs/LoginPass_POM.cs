@@ -24,19 +24,19 @@ namespace ecommerce.finalproject.POMs
         //Service Methods
         public void Notice()
         {
-            demoNotice.Click();
+            demoNotice.Click(); //dismisses the demo notice banner
         }
 
         public void Login()
         {
             userName.Click();
-            userName.SendKeys(Environment.GetEnvironmentVariable("Username"));
+            userName.SendKeys(Environment.GetEnvironmentVariable("Username")); //using runsettings to get the username
         }
 
         public void Pass()
         {
             passWord.Click();
-            passWord.SendKeys(Environment.GetEnvironmentVariable("Password"));
+            passWord.SendKeys(Environment.GetEnvironmentVariable("Password")); //using runsettings to get the password
             logIn.Click();
         }
 

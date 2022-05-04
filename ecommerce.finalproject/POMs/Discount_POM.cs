@@ -24,6 +24,7 @@ namespace ecommerce.finalproject.POMs
         //Service Method
         public void EnterDiscount(String discount)
         {
+            //enters the discount 
             enterDiscount.Click();
             enterDiscount.SendKeys(discount);
             enterDiscount.SendKeys(Keys.Enter);

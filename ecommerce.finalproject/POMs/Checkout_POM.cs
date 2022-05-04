@@ -30,7 +30,7 @@ namespace ecommerce.finalproject.POMs
 
 
         //Service Method
-        public Checkout_POM BillingDetails()
+        public void BillingDetails()
         {
             proceedCheckout.Click();
             firstName.Clear(); //makes sure the box is empty before continuing
@@ -45,9 +45,8 @@ namespace ecommerce.finalproject.POMs
             postCode.SendKeys(Environment.GetEnvironmentVariable("PostCode"));
             phoneNo.Clear();
             phoneNo.SendKeys(Environment.GetEnvironmentVariable("PhoneNo"));
-            Thread.Sleep(1000);
+            Thread.Sleep(1000); //waits for the check payments icon to be selected before continuing to place the order
             placeOrder.Click();
-            return this;
         }
 
         public int GetOrderNo()
@@ -57,8 +56,8 @@ namespace ecommerce.finalproject.POMs
             wait.Until(drv => drv.Url.Contains("order-received"));
 
 
-            Console.WriteLine("Order number: " + orderNo.Text);
-            return int.Parse(orderNo.Text);
+            Console.WriteLine("Order number: " + orderNo.Text); //writes in the test what the order number is
+            return int.Parse(orderNo.Text); //parses the order as text
         }
 
 
