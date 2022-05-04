@@ -22,23 +22,22 @@ namespace ecommerce.finalproject.POMs
         public IWebElement subtotalValue => driver.FindElement(By.CssSelector(".cart-subtotal > td > .amount.woocommerce-Price-amount"));
 
         //Service Method
-        public Discount_POM EnterDiscount(String discount)
+        public void EnterDiscount(String discount)
         {
             enterDiscount.Click();
-            enterDiscount.SendKeys("edgewords");
+            enterDiscount.SendKeys(discount);
             enterDiscount.SendKeys(Keys.Enter);
-            return this;
         }
 
-        public Discount_POM CheckCouponPercentIsCorrect(Decimal percent)
+        public void CheckCouponPercentIsCorrect(Decimal percent)
         {
-
             //checks if the correct discount % is taken off 
-            Decimal discount = Decimal.Parse(subtotalValue.Text.Substring(1)) / Decimal.Parse(couponValue.Text.Substring(1)); //takes the subtotal value and gets rid of the £ symbol and then dividing it by the discount value
-            Assert.That(discount, Is.EqualTo(percent), String.Format("Discount should be {0}% off but the discount was {1}% off", percent, discount)); //this asserts that the discount value is correct, if not then will show a message
-            return this;
+            //takes the subtotal value and gets everything after the £ symbol and then dividing it by the discount value(by parsing the string as a decimal it can do division)
+            Decimal discount = Decimal.Parse(subtotalValue.Text.Substring(1)) / Decimal.Parse(couponValue.Text.Substring(1));
+
+            //this asserts that the discount value is correct, if not then will show a message
+            Assert.That(discount, Is.EqualTo(percent), String.Format("Discount should be {0}% off but the discount was {1}% off", percent, discount)); 
+
         }
-
-
     }
 }

@@ -33,32 +33,34 @@ namespace ecommerce.finalproject.POMs
         public Checkout_POM BillingDetails()
         {
             proceedCheckout.Click();
-            firstName.Clear();
-            firstName.SendKeys("Elize");
+            firstName.Clear(); //makes sure the box is empty before continuing
+            firstName.SendKeys(Environment.GetEnvironmentVariable("FirstName"));
             lastName.Clear();
-            lastName.SendKeys("Reyes");
+            lastName.SendKeys(Environment.GetEnvironmentVariable("LastName"));
             streetAddress.Clear();
-            streetAddress.SendKeys("123 Nfocus Street");
+            streetAddress.SendKeys(Environment.GetEnvironmentVariable("StreetAddress"));
             city.Clear();
-            city.SendKeys("Telford");
+            city.SendKeys(Environment.GetEnvironmentVariable("City"));
             postCode.Clear();
-            postCode.SendKeys("TF2 9FT");
+            postCode.SendKeys(Environment.GetEnvironmentVariable("PostCode"));
             phoneNo.Clear();
-            phoneNo.SendKeys("0712345678");
+            phoneNo.SendKeys(Environment.GetEnvironmentVariable("PhoneNo"));
             Thread.Sleep(1000);
             placeOrder.Click();
             return this;
         }
 
-        public Decimal OrderNo()
+        public int GetOrderNo()
         {
+           //waits for the driver url to change so that the Order number can be returned
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
             wait.Until(drv => drv.Url.Contains("order-received"));
 
-            
+
             Console.WriteLine("Order number: " + orderNo.Text);
-            return Decimal.Parse(orderNo.Text);
+            return int.Parse(orderNo.Text);
         }
+
 
     }
 }

@@ -28,18 +28,21 @@ namespace ecommerce.finalproject
            _scenarioContext["webdriver"] = driver;
 
             //Navigates to the log in page
-            string BaseUrl = Environment.GetEnvironmentVariable("BaseURL");
+            string BaseUrl = Environment.GetEnvironmentVariable("BaseURL"); //uses the runsettings baseurl
             driver.Url = BaseUrl;
         }
 
         [After]
         public void TearDown()
         {
-          // driver.FindElement(By.Id("menu-item-46")).Click();
-          // driver.FindElement(By.PartialLinkText("Log out")).Click();
+            driver.FindElement(By.Id("menu-item-45")).Click(); //clicks on cart
 
-          // IWebDriver sharedDriver = (IWebDriver)_scenarioContext["webdriver"];
-          // sharedDriver.Quit();
+            
+            driver.FindElement(By.Id("menu-item-46")).Click(); //clicks on my account on the top nav
+            driver.FindElement(By.PartialLinkText("Log out")).Click(); //clicks on the logout 
+
+            IWebDriver sharedDriver = (IWebDriver)_scenarioContext["webdriver"];
+            sharedDriver.Quit();
         }
     } 
 }

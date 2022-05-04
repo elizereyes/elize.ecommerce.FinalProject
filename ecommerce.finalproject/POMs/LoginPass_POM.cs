@@ -22,25 +22,22 @@ namespace ecommerce.finalproject.POMs
         public IWebElement demoNotice => driver.FindElement(By.ClassName("woocommerce-store-notice__dismiss-link"));
 
         //Service Methods
-        public LoginPass_POM Notice()
+        public void Notice()
         {
             demoNotice.Click();
-            return this;
         }
 
-        public LoginPass_POM Login(String username)
+        public void Login()
         {
             userName.Click();
-            userName.SendKeys(username);
-            return this;
+            userName.SendKeys(Environment.GetEnvironmentVariable("Username"));
         }
 
-        public LoginPass_POM Pass(String password)
+        public void Pass()
         {
             passWord.Click();
-            passWord.SendKeys(password);
+            passWord.SendKeys(Environment.GetEnvironmentVariable("Password"));
             logIn.Click();
-            return this;
         }
 
     }

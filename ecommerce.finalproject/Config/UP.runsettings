@@ -6,6 +6,12 @@
 			<BaseURL>https://www.edgewordstraining.co.uk/demo-site/my-account/</BaseURL>
 			<Username>elize.reyes@nfocus.co.uk</Username>
 			<Password>Pr0j3c7PW0rd</Password>
+			<FirstName>Elize</FirstName>
+			<LastName>Reyes</LastName>
+			<StreetAddress>123 Nfocus Street</StreetAddress>
+			<City>Telford</City>
+			<PostCode>TF2 9FT</PostCode>
+			<PhoneNo>0712345678</PhoneNo>
 		</EnvironmentVariables>
 	</RunConfiguration>
 </RunSettings>

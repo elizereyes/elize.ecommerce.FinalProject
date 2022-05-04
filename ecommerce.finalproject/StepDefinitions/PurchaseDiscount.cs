@@ -39,8 +39,8 @@ namespace ecommerce.finalproject.StepDefinitions
 
             LoginPass_POM Login = new LoginPass_POM(driver);
             Login.Notice();
-            Login.Login(Environment.GetEnvironmentVariable("userName"));
-            Login.Pass(Environment.GetEnvironmentVariable("passWord"));
+            Login.Login();
+            Login.Pass();
 
 
             Thread.Sleep(1000);
@@ -59,7 +59,7 @@ namespace ecommerce.finalproject.StepDefinitions
         public void WhenProvideADiscountCode()
         {
             Discount_POM discount = new Discount_POM(driver);
-            discount.EnterDiscount("edgewords");
+            discount.EnterDiscount("edgewords"); //enters the coupon code which is named edgewords
 
             Thread.Sleep(2000);
 
@@ -69,10 +69,8 @@ namespace ecommerce.finalproject.StepDefinitions
         [Then(@"my total should update correctly")]
         public void ThenMyTotalShouldUpdateCorrectly()
         {
-
             Cart_POM Cart = new Cart_POM(driver);
             Cart.CheckTotal();
-
         }
 
 
@@ -82,18 +80,18 @@ namespace ecommerce.finalproject.StepDefinitions
         {
             Checkout_POM Checkout = new Checkout_POM(driver);
             Checkout.BillingDetails();
-            Checkout.OrderNo();
 
         }
 
         [Then(@"my order should show up in the order history")]
         public void OrderinHistory()
         {
+            Checkout_POM Checkout = new Checkout_POM(driver);
+            int checkoutOrderNo = Checkout.GetOrderNo();
+
             OrderHistory_POM History = new OrderHistory_POM(driver);
-            History.Navigate();
-            History.CheckOrder();
+            History.Navigate(); //navigates to the order history 
+            History.CheckNewOrder(checkoutOrderNo);
         }
-
-
     }
 }

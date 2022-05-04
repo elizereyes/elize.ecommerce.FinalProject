@@ -27,22 +27,18 @@ namespace ecommerce.finalproject.POMs
         public IWebElement shippingValue => driver.FindElement(By.CssSelector(".shipping > td > .amount.woocommerce-Price-amount"));
 
         //Service Method
-        public Cart_POM AddHoodie()
+        public void AddHoodie()
         {
             shop.Click();
             clickItem.Click();
             addCart.Click();
             clickCart.Click();
-           
-            return this;
         }
 
-        public Cart_POM CheckTotal()
+        public void CheckTotal()
         {
             Decimal expectedTotal = Decimal.Parse(subtotalValue.Text.Substring(1)) - Decimal.Parse(couponValue.Text.Substring(1)) + Decimal.Parse(shippingValue.Text.Substring(1));
             Assert.That(Decimal.Parse(totalValue.Text.Substring(1)), Is.EqualTo(expectedTotal), String.Format("Total should be {0} but the Total was {1}", expectedTotal, totalValue.Text.Substring(1)));
-           
-            return this;
         }
 
     }
