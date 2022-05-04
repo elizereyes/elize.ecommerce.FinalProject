@@ -43,33 +43,18 @@ namespace ecommerce.finalproject
             //removes any coupons and items from the cart so it's ready for the next test, in order to not restack
             driver.FindElement(By.Id("menu-item-44")).Click(); //clicks on cart
 
-            try
+            if (driver.FindElements(By.CssSelector(".cart-empty")).Count == 0)//If cart isnt empty 
             {
-                //if cart is empty there will be no exception
-                //bool is checking if it's displayed as a true or false. (if false exception is thrown, if true, then no exception thrown then the code is skipped over)
-                bool isCartEmpty = driver.FindElement(By.CssSelector(".cart-empty")).Displayed;
-            }
-            catch (NoSuchElementException) //but if the cart is populated an element not such element exception is thrown
-            {
-
-               // Console.WriteLine("Cart Isn't Empty");
-                try 
+                if (driver.FindElements(By.CssSelector(".cart-discount.coupon-edgewords > th")).Count != 0)//If coupon used
                 {
-                    //checks if a coupon is used by locating the element
-                    bool isCouponUsed = driver.FindElement(By.CssSelector(".cart-discount.coupon-edgewords > th")).Displayed;
-                    if (isCouponUsed) 
-                    {
-                        //if a coupon is used then it will click the remove button (removing the coupon first, so that coupon doesn't restack on the next test)
-                        removeCoupon.Click();
-                        //and also clicks the delete button on the item in the cart
-                        removeItem.Click();
-                    }
+                    //if a coupon is used then it will click the remove button (removing the coupon first, so that coupon doesn't restack on the next test)
+                    removeCoupon.Click();
+                    //and also clicks the delete button on the item in the cart
+                    removeItem.Click();
                 }
-                catch (NoSuchElementException) //if a coupon isn't used then a no such element exception is thrown
-                {
-                   // Console.WriteLine("Coupon isn't Used");
-                    removeItem.Click(); //so item is removed 
-                }
+                else
+                    //clicks the delete button on the item in the cart
+                    removeItem.Click();
             }
 
             driver.FindElement(By.Id("menu-item-46")).Click(); //clicks on my account on the top nav
