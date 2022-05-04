@@ -43,7 +43,7 @@ namespace ecommerce.finalproject
             //removes any coupons and items from the cart so it's ready for the next test, in order to not restack
             driver.FindElement(By.Id("menu-item-44")).Click(); //clicks on cart
 
-            if (driver.FindElements(By.CssSelector(".cart-empty")).Count == 0)//If cart isnt empty 
+            if (driver.FindElements(By.CssSelector(".cart-empty")).Count == 0)//If cart isnt empty, .count to see if there is anything in the cart empty element
             {
                 if (driver.FindElements(By.CssSelector(".cart-discount.coupon-edgewords > th")).Count != 0)//If coupon used
                 {
@@ -52,7 +52,7 @@ namespace ecommerce.finalproject
                     //and also clicks the delete button on the item in the cart
                     removeItem.Click();
                 }
-                else
+                else //just removes the item if theres no coupon used
                     //clicks the delete button on the item in the cart
                     removeItem.Click();
             }
