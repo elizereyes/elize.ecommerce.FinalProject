@@ -39,7 +39,7 @@ namespace ecommerce.finalproject.StepDefinitions
         [Given(@"these details")]
         public void GivenTheseDetails(Table table)
         {
-            _userDetails = table.CreateInstance<UserDetails>(); //customer details using POCO
+            _userDetails = table.CreateInstance<UserDetails>(); //customer details 
         }
 
         //Test case 1
