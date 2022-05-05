@@ -27,7 +27,6 @@ namespace ecommerce.finalproject.StepDefinitions
 
         private UserDetails _userDetails;
 
-
         public StepDefinitions(ScenarioContext scenarioContext, UserDetails userDetails)
         {
             _scenarioContext = scenarioContext;
@@ -36,6 +35,7 @@ namespace ecommerce.finalproject.StepDefinitions
 
         }
 
+        //Background used as a POCO
         [Given(@"these details")]
         public void GivenTheseDetails(Table table)
         {

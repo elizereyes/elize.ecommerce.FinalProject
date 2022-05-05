@@ -31,10 +31,15 @@ namespace ecommerce.finalproject.POMs
         }
 
         public void CheckCouponPercentIsCorrect(Decimal percent)
-        {
+        {            
+            
             //checks if the correct discount % is taken off 
-            //takes the subtotal value and gets everything after the £ symbol and then dividing it by the discount value(by parsing the string as a decimal it can do division)
-            Decimal discount = Decimal.Parse(subtotalValue.Text.Substring(1)) / Decimal.Parse(couponValue.Text.Substring(1));
+            //takes the coupon value(and * it by 100 to get the percentage) and gets everything after the £ symbol and then dividing it by the subtotal(by parsing the string as a decimal it can do division)
+            Decimal discount = (Decimal.Parse(couponValue.Text.Substring(1)) * 100) / Decimal.Parse(subtotalValue.Text.Substring(1));
+
+            //Testing if it works
+            //String test15 = "£6.75";
+            //Decimal discount = (Decimal.Parse(test15.Substring(1)) * 100) / Decimal.Parse(subtotalValue.Text.Substring(1));
 
             //this asserts that the discount value is correct, if not then will show a message
             Assert.That(discount, Is.EqualTo(percent), String.Format("Discount should be {0}% off but the discount was {1}% off", percent, discount)); 
