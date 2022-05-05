@@ -34,7 +34,7 @@ namespace ecommerce.finalproject.POMs
         {            
             
             //checks if the correct discount % is taken off 
-            //takes the coupon value(and * it by 100 to get the percentage) and gets everything after the £ symbol and then dividing it by the subtotal(by parsing the string as a decimal it can do division)
+            //takes the coupon value(and * it by 100 to work out the percentage) and gets everything after the £ symbol and then dividing it by the subtotal(by parsing the string as a decimal it can do division)
             Decimal discount = (Decimal.Parse(couponValue.Text.Substring(1)) * 100) / Decimal.Parse(subtotalValue.Text.Substring(1));
 
             //Testing if it works
