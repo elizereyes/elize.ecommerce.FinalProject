@@ -43,16 +43,14 @@ namespace ecommerce.finalproject.POMs
             postCode.SendKeys(userDetails.postCode);
             phoneNo.Clear();
             phoneNo.SendKeys(userDetails.phoneNo);
-            Thread.Sleep(1000); //waits for the check payments icon to be selected before continuing to place the order
+            Thread.Sleep(2000); //waits for the check payments icon to be selected before continuing to place the order
             placeOrder.Click();
         }
 
+
+
         public int GetOrderNo()
         {
-           //waits for the driver url to change so that the Order number can be returned
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
-            wait.Until(drv => drv.Url.Contains("order-received"));
-
 
             Console.WriteLine("Order number: " + orderNo.Text); //writes in the test what the order number is
             return int.Parse(orderNo.Text); //parses the order as text

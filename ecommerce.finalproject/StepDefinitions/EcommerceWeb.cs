@@ -12,6 +12,7 @@ namespace ecommerce.finalproject.StepDefinitions
     {
 
         IWebDriver driver;
+        Helper helper;
 
         private readonly ScenarioContext _scenarioContext;
 
@@ -22,6 +23,7 @@ namespace ecommerce.finalproject.StepDefinitions
             _scenarioContext = scenarioContext;
             _userDetails = userDetails;
             driver = (IWebDriver)_scenarioContext["webdriver"]; //gets driver
+            helper = new Helper(driver);
 
         }
 
@@ -40,38 +42,53 @@ namespace ecommerce.finalproject.StepDefinitions
             Login.Login(); //log in with username
             Login.Pass(); //finds and inputs the password
 
-            Thread.Sleep(1000); //used a thread sleep so that the website has time to successfully log in before going to next step
+            //waits so that the dashboard is displayed before moving on
+            helper.WaitForElement("Dashboard");
         }
         
-        [When(@"I add an item into my cart")]
-        public void WhenIAddAnItemIntoMyCart()
+        [When(@"I add an '([^']*)' into my cart")]
+        public void WhenIAddAnItemIntoMyCart(string item)
         {
             //After logging in, will navigate to the shop page
             Cart_POM Add = new Cart_POM(driver);
-            Add.AddHoodie(); //adds the hoodie with logo to cart and views the cart
+            Add.AddItem(item); //adds the item stated in the scenario to cart and views the cart
         }
 
 
         //Test case 1
-        [When(@"provide a discount code")]
-        public void WhenProvideADiscountCode()
+        [When(@"provide '([^']*)' discount code")]
+        public void WhenProvideADiscountCode(string discountCode)
         {
             Discount_POM discount = new Discount_POM(driver);
-            discount.EnterDiscount("edgewords"); //enters the coupon code which is named edgewords
-            Thread.Sleep(2000);
+            discount.EnterDiscount(discountCode); //enters the coupon code which is named edgewords
+
+            //waits so that the dashboard is added before continuing (using partial link text Remove)
+            helper.WaitForElement("[Remove]");
         }
 
-        [Then(@"my total should update correctly")]
-        public void ThenMyTotalShouldUpdateCorrectly()
+        [Then(@"my total should update correctly with a discount of '([^']*)'%")]
+        public void ThenMyTotalShouldUpdateCorrectly(string discountPercent)
         {
             Discount_POM discount = new Discount_POM(driver);
             //this asserts that the discount value is correct, if not then will show a message
-            Decimal percent = 15, couponValue = discount.GetCouponPercentValue();
-            Assert.That(couponValue, Is.EqualTo(percent), String.Format("Discount should be {0}% off but the discount was {1}% off", percent, couponValue));//checks if 15% is applied
+            Decimal percent = Decimal.Parse(discountPercent), couponValue = discount.GetCouponPercentValue();
+
+            //if the couponvalue isn't equals to the expected discount percent then take a screenshot
+            if (!couponValue.Equals(percent))
+            {
+                helper.Screenshot("Discount");
+                Assert.Fail(String.Format("Discount should be {0}% off but the discount was {1}% off", percent, couponValue));
+            }
 
             Decimal[] values = discount.GetTotalValues();//checks the total of order
-            //working out if the total value shown(values[0]) is the same as the expected total(values[1]), if not will show an error message
-            Assert.That(values[0], Is.EqualTo(values[1]), String.Format("Total should be {0} but the Total was {1}", values[1], values[0]));
+                                                         //working out if the total value shown(values[0]) is the same as the expected total(values[1]), if not will show an error message
+
+            //if the total isn't equals to the expected total then take a screenshot
+            if (!values[0].Equals(values[1]))
+            {
+                helper.Screenshot("Total");
+                Assert.Fail(String.Format("Total should be {0} but the Total was {1}", values[1], values[0]));
+            }
         }
 
         //Test case 2
@@ -86,13 +103,26 @@ namespace ecommerce.finalproject.StepDefinitions
         [Then(@"my order should show up in the order history")]
         public void OrderinHistory()
         {
+            //waits for the driver url to change so that the Order number can be returned
+            helper.WaitToNav("order-received");
+
             Checkout_POM Checkout = new Checkout_POM(driver);
             int checkoutOrderNo = Checkout.GetOrderNo(); //finds the order number and writes out the results in the test
 
             OrderHistory_POM History = new OrderHistory_POM(driver);
             History.Navigate(); //navigates to the order history 
-            Thread.Sleep(1000);
-            Assert.That(History.IsOrderInHistory(checkoutOrderNo), "Latest Order isnt in Order History");//checks the order history to see if it matches the order no provided at checkout
+
+            //waits until the url is in orders 
+            helper.WaitToNav("orders");
+
+            //if the latest order isn't in the order history then take a screenshot
+            if (!History.IsOrderInHistory(checkoutOrderNo))//checks the order history to see if it matches the order no provided at checkout
+            {
+                helper.Screenshot("History");
+                Assert.Fail("Latest Order isnt in Order History");
+            }
+
+
         }
     }
 }
