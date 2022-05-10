@@ -1,17 +1,7 @@
-﻿using NUnit.Framework;
+﻿using ecommerce.finalproject.POMs;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Interactions;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System;
-using TechTalk.SpecFlow;
-using ecommerce.finalproject.POMs;
-using OpenQA.Selenium.Support.UI;
 using TechTalk.SpecFlow.Assist;
+using NUnit.Framework;
 
 namespace ecommerce.finalproject.StepDefinitions
 
@@ -41,22 +31,18 @@ namespace ecommerce.finalproject.StepDefinitions
         {
             _userDetails = table.CreateInstance<UserDetails>(); //customer details 
         }
-
-        //Test case 1
-        [Given(@"that I am logged in")]
+        
+        [When(@"I am logged in")]
         public void GivenThatIAmLoggedIn()
         {
-
             LoginPass_POM Login = new LoginPass_POM(driver);
             Login.Notice(); //dismisses the notice which states that the website is for demo purposes
             Login.Login(); //log in with username
             Login.Pass(); //finds and inputs the password
 
-
             Thread.Sleep(1000); //used a thread sleep so that the website has time to successfully log in before going to next step
-
         }
-
+        
         [When(@"I add an item into my cart")]
         public void WhenIAddAnItemIntoMyCart()
         {
@@ -65,24 +51,28 @@ namespace ecommerce.finalproject.StepDefinitions
             Add.AddHoodie(); //adds the hoodie with logo to cart and views the cart
         }
 
+
+        //Test case 1
         [When(@"provide a discount code")]
         public void WhenProvideADiscountCode()
         {
             Discount_POM discount = new Discount_POM(driver);
             discount.EnterDiscount("edgewords"); //enters the coupon code which is named edgewords
-
             Thread.Sleep(2000);
-
-            discount.CheckCouponPercentIsCorrect(15); //checks if 15% is applied
         }
 
         [Then(@"my total should update correctly")]
         public void ThenMyTotalShouldUpdateCorrectly()
         {
-            Cart_POM Cart = new Cart_POM(driver);
-            Cart.CheckTotal(); //checks the total of order
-        }
+            Discount_POM discount = new Discount_POM(driver);
+            //this asserts that the discount value is correct, if not then will show a message
+            Decimal percent = 15, couponValue = discount.GetCouponPercentValue();
+            Assert.That(couponValue, Is.EqualTo(percent), String.Format("Discount should be {0}% off but the discount was {1}% off", percent, couponValue));//checks if 15% is applied
 
+            Decimal[] values = discount.GetTotalValues();//checks the total of order
+            //working out if the total value shown(values[0]) is the same as the expected total(values[1]), if not will show an error message
+            Assert.That(values[0], Is.EqualTo(values[1]), String.Format("Total should be {0} but the Total was {1}", values[1], values[0]));
+        }
 
         //Test case 2
         [When(@"I provide valid billing details")]
@@ -101,7 +91,8 @@ namespace ecommerce.finalproject.StepDefinitions
 
             OrderHistory_POM History = new OrderHistory_POM(driver);
             History.Navigate(); //navigates to the order history 
-            History.CheckNewOrder(checkoutOrderNo); //checks the order history to see if it matches the order no provided at checkout
+            Thread.Sleep(1000);
+            Assert.That(History.IsOrderInHistory(checkoutOrderNo), "Latest Order isnt in Order History");//checks the order history to see if it matches the order no provided at checkout
         }
     }
 }

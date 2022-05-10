@@ -1,11 +1,4 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OpenQA.Selenium;
 
 namespace ecommerce.finalproject.POMs
 {
@@ -33,11 +26,13 @@ namespace ecommerce.finalproject.POMs
             orders.Click();
         }
 
-       
-        public void CheckNewOrder(int checkoutOrderNo)
+
+        public Boolean IsOrderInHistory(int checkoutOrderNo)
         {
             //Checks that the latest order number from the Order History is the same as the checkout order number from when the order was placed
-            Assert.That(int.Parse(latestOrderNo.Text.Substring(1)), Is.EqualTo(checkoutOrderNo), "Latest Order isnt in Order History");
+            if (int.Parse(latestOrderNo.Text.Substring(1)).Equals(checkoutOrderNo))
+                return true;
+            else return false;
             //uses .Text to get the order number from the selected element, then uses the substring to get everything after the #
             //Then compares that the 2 ints are the same value so therefore the order was created successfully
             //uses ints as the order number won't be a decimal

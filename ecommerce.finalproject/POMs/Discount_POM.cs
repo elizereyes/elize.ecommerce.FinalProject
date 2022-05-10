@@ -1,10 +1,4 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OpenQA.Selenium;
 
 namespace ecommerce.finalproject.POMs
 {
@@ -20,6 +14,8 @@ namespace ecommerce.finalproject.POMs
         public IWebElement enterDiscount => driver.FindElement(By.CssSelector("input#coupon_code"));
         public IWebElement couponValue => driver.FindElement(By.CssSelector(".cart-discount.coupon-edgewords > td > .amount.woocommerce-Price-amount"));
         public IWebElement subtotalValue => driver.FindElement(By.CssSelector(".cart-subtotal > td > .amount.woocommerce-Price-amount"));
+        public IWebElement totalValue => driver.FindElement(By.CssSelector("strong > .amount.woocommerce-Price-amount"));
+        public IWebElement shippingValue => driver.FindElement(By.CssSelector(".shipping > td > .amount.woocommerce-Price-amount"));
 
         //Service Method
         public void EnterDiscount(String discount)
@@ -30,20 +26,28 @@ namespace ecommerce.finalproject.POMs
             enterDiscount.SendKeys(Keys.Enter);
         }
 
-        public void CheckCouponPercentIsCorrect(Decimal percent)
-        {            
-            
+        public Decimal GetCouponPercentValue()
+        {
+
             //checks if the correct discount % is taken off 
-            //takes the coupon value(and * it by 100 to work out the percentage) and gets everything after the £ symbol and then dividing it by the subtotal(by parsing the string as a decimal it can do division)
+            //takes the coupon value(and * it by 100 to get the percentage) and gets everything after the £ symbol and then dividing it by the subtotal(by parsing the string as a decimal it can do division)
             Decimal discount = (Decimal.Parse(couponValue.Text.Substring(1)) * 100) / Decimal.Parse(subtotalValue.Text.Substring(1));
 
             //Testing if it works
             //String test15 = "£6.75";
             //Decimal discount = (Decimal.Parse(test15.Substring(1)) * 100) / Decimal.Parse(subtotalValue.Text.Substring(1));
+            return discount;
 
-            //this asserts that the discount value is correct, if not then will show a message
-            Assert.That(discount, Is.EqualTo(percent), String.Format("Discount should be {0}% off but the discount was {1}% off", percent, discount)); 
+        }
 
+         
+        public Decimal[] GetTotalValues()
+        {
+            //working out the expected total of the whole order
+            Decimal expectedTotal = Decimal.Parse(subtotalValue.Text.Substring(1)) - Decimal.Parse(couponValue.Text.Substring(1)) + Decimal.Parse(shippingValue.Text.Substring(1));
+            //return both the total displayed value and the expected total, so that we can display extra information on the assert. 
+            Decimal[] returnValues = { Decimal.Parse(totalValue.Text.Substring(1)), expectedTotal };
+            return returnValues;
         }
     }
 }

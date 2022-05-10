@@ -60,8 +60,7 @@ namespace ecommerce.finalproject
             driver.FindElement(By.Id("menu-item-46")).Click(); //clicks on my account on the top nav
             driver.FindElement(By.PartialLinkText("Log out")).Click(); //clicks on the logout 
 
-            IWebDriver sharedDriver = (IWebDriver)_scenarioContext["webdriver"];
-            sharedDriver.Quit(); //Quits the WebDriver
+            driver.Quit(); //Quits the WebDriver
         }
 
     }
