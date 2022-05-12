@@ -19,12 +19,6 @@ namespace ecommerce.finalproject.POMs
 
 
         //Service Method
-        public void Navigate()
-        {
-            //navigates to the order history
-            myAccount.Click();
-            orders.Click();
-        }
 
 
         public Boolean IsOrderInHistory(int checkoutOrderNo)

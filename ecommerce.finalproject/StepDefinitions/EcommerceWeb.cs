@@ -34,7 +34,7 @@ namespace ecommerce.finalproject.StepDefinitions
             _userDetails = table.CreateInstance<UserDetails>(); //customer details 
         }
         
-        [When(@"I am logged in")]
+        [Given(@"I am logged in")]
         public void GivenThatIAmLoggedIn()
         {
             LoginPass_POM Login = new LoginPass_POM(driver);
@@ -48,10 +48,13 @@ namespace ecommerce.finalproject.StepDefinitions
         
         [When(@"I add an '([^']*)' into my cart")]
         public void WhenIAddAnItemIntoMyCart(string item)
-        {
+        {           
             //After logging in, will navigate to the shop page
-            Cart_POM Add = new Cart_POM(driver);
+            TopNav_POM Nav = new TopNav_POM(driver);
+            Shop_POM Add = new Shop_POM(driver);
+            Nav.Navigate("Shop");
             Add.AddItem(item); //adds the item stated in the scenario to cart and views the cart
+            Nav.Navigate("Cart");
         }
 
 
@@ -59,17 +62,18 @@ namespace ecommerce.finalproject.StepDefinitions
         [When(@"provide '([^']*)' discount code")]
         public void WhenProvideADiscountCode(string discountCode)
         {
-            Discount_POM discount = new Discount_POM(driver);
-            discount.EnterDiscount(discountCode); //enters the coupon code which is named edgewords
+            Cart_POM discount = new Cart_POM(driver);
+            discount.EnterDiscount(discountCode); //enters the coupon code which is named in the scenario
 
-            //waits so that the dashboard is added before continuing (using partial link text Remove)
+            //waits so that the discount is added before continuing (using partial link text Remove)
             helper.WaitForElement("[Remove]");
         }
 
         [Then(@"my total should update correctly with a discount of '([^']*)'%")]
         public void ThenMyTotalShouldUpdateCorrectly(string discountPercent)
         {
-            Discount_POM discount = new Discount_POM(driver);
+            Cart_POM discount = new Cart_POM(driver);
+           
             //this asserts that the discount value is correct, if not then will show a message
             Decimal percent = Decimal.Parse(discountPercent), couponValue = discount.GetCouponPercentValue();
 
@@ -86,6 +90,8 @@ namespace ecommerce.finalproject.StepDefinitions
             //if the total isn't equals to the expected total then take a screenshot
             if (!values[0].Equals(values[1]))
             {
+                helper.Scroll("Proceed to checkout");
+                //Thread.Sleep(1000);
                 helper.Screenshot("Total");
                 Assert.Fail(String.Format("Total should be {0} but the Total was {1}", values[1], values[0]));
             }
@@ -95,7 +101,9 @@ namespace ecommerce.finalproject.StepDefinitions
         [When(@"I provide valid billing details")]
         public void WhenIProvideValidBillingDetails()
         {
+            Cart_POM Cart = new Cart_POM(driver);
             Checkout_POM Checkout = new Checkout_POM(driver);
+            Cart.ProceedCheckout();
             Checkout.BillingDetails(_userDetails); //fills in the billing details and places the order
 
         }
@@ -109,19 +117,20 @@ namespace ecommerce.finalproject.StepDefinitions
             Checkout_POM Checkout = new Checkout_POM(driver);
             int checkoutOrderNo = Checkout.GetOrderNo(); //finds the order number and writes out the results in the test
 
-            OrderHistory_POM History = new OrderHistory_POM(driver);
-            History.Navigate(); //navigates to the order history 
-
+            TopNav_POM Nav = new TopNav_POM(driver);
+            Nav.Navigate("My account");
+            Nav.Navigate("Orders");//navigates to the order history 
+           
             //waits until the url is in orders 
             helper.WaitToNav("orders");
 
+            OrderHistory_POM History = new OrderHistory_POM(driver);
             //if the latest order isn't in the order history then take a screenshot
             if (!History.IsOrderInHistory(checkoutOrderNo))//checks the order history to see if it matches the order no provided at checkout
             {
                 helper.Screenshot("History");
                 Assert.Fail("Latest Order isnt in Order History");
             }
-
 
         }
     }

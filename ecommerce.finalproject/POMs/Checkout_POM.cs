@@ -16,7 +16,6 @@ namespace ecommerce.finalproject.POMs
        
 
         //Locators
-        public IWebElement proceedCheckout => driver.FindElement(By.LinkText("Proceed to checkout"));
         public IWebElement firstName => driver.FindElement(By.CssSelector("input#billing_first_name"));
         public IWebElement lastName => driver.FindElement(By.CssSelector("input#billing_last_name"));
         public IWebElement streetAddress => driver.FindElement(By.CssSelector("input[name='billing_address_1']"));
@@ -30,7 +29,6 @@ namespace ecommerce.finalproject.POMs
         //Service Method
         public void BillingDetails(UserDetails userDetails)
         {
-            proceedCheckout.Click();
             firstName.Clear(); //makes sure the box is empty before continuing
             firstName.SendKeys(userDetails.firstName);
             lastName.Clear();

@@ -14,12 +14,14 @@ namespace ecommerce.finalproject
     public class Hooks
     {
         public IWebDriver driver;
+        Helper helper;
 
         private readonly ScenarioContext _scenarioContext;
 
         public Hooks(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
+            helper = new Helper(driver);
         }
 
         [Before]
@@ -41,7 +43,8 @@ namespace ecommerce.finalproject
         public void TearDown()
         {
             //removes any coupons and items from the cart so it's ready for the next test, in order to not restack
-            driver.FindElement(By.Id("menu-item-44")).Click(); //clicks on cart
+            driver.FindElement(By.LinkText("Cart")).Click(); //clicks on cart
+           //helper.WaitForElement("Calculate shipping");
 
             if (driver.FindElements(By.CssSelector(".cart-empty")).Count == 0)//If cart isnt empty, .count to see if there is anything in the cart empty element
             {
