@@ -50,7 +50,7 @@ namespace ecommerce.finalproject.StepDefinitions
         public void WhenIAddAnItemIntoMyCart(string item)
         {           
             //After logging in, will navigate to the shop page
-            TopNav_POM Nav = new TopNav_POM(driver);
+            Navigate_POM Nav = new Navigate_POM(driver);
             Shop_POM Add = new Shop_POM(driver);
             Nav.Navigate("Shop");
             Add.AddItem(item); //adds the item stated in the scenario to cart and views the cart
@@ -91,7 +91,6 @@ namespace ecommerce.finalproject.StepDefinitions
             if (!values[0].Equals(values[1]))
             {
                 helper.Scroll("Proceed to checkout");
-                //Thread.Sleep(1000);
                 helper.Screenshot("Total");
                 Assert.Fail(String.Format("Total should be {0} but the Total was {1}", values[1], values[0]));
             }
@@ -117,7 +116,7 @@ namespace ecommerce.finalproject.StepDefinitions
             Checkout_POM Checkout = new Checkout_POM(driver);
             int checkoutOrderNo = Checkout.GetOrderNo(); //finds the order number and writes out the results in the test
 
-            TopNav_POM Nav = new TopNav_POM(driver);
+            Navigate_POM Nav = new Navigate_POM(driver);
             Nav.Navigate("My account");
             Nav.Navigate("Orders");//navigates to the order history 
            

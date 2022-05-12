@@ -3,10 +3,10 @@
 
 namespace ecommerce.finalproject.POMs
 {
-    public class TopNav_POM
+    public class Navigate_POM
     {
         IWebDriver driver;
-        public TopNav_POM(IWebDriver driver)
+        public Navigate_POM(IWebDriver driver)
         {
             this.driver = driver;
         }
