@@ -23,6 +23,7 @@ namespace ecommerce.finalproject.POMs
 
         public Boolean IsOrderInHistory(int checkoutOrderNo)
         {
+            Console.WriteLine(String.Format("IsOrderInHistory: latestOrderNo: {0} and checkoutOrderNo: {1}", latestOrderNo.Text, checkoutOrderNo));
             //Checks that the latest order number from the Order History is the same as the checkout order number from when the order was placed
             if (int.Parse(latestOrderNo.Text.Substring(1)).Equals(checkoutOrderNo))
                 return true;
@@ -30,6 +31,8 @@ namespace ecommerce.finalproject.POMs
             //uses .Text to get the order number from the selected element, then uses the substring to get everything after the #
             //Then compares that the 2 ints are the same value so therefore the order was created successfully
             //uses ints as the order number won't be a decimal
+            
+           
         }
     }
 }

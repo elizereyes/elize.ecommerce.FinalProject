@@ -25,14 +25,22 @@ namespace ecommerce.finalproject.POMs
 
         public void Login()
         {
+            string username = Environment.GetEnvironmentVariable("Username");
+           
             userName.Click();
-            userName.SendKeys(Environment.GetEnvironmentVariable("Username")); //using runsettings to get the username
+            userName.SendKeys(username); //using runsettings to get the username
+          
+            //writes in the console the login that's used but splits it to maintain privacy 
+            string[] emailSplit = username.Split('@'); //the split takes before or after the @
+            int Characters = emailSplit[0].Count() / 2; //this splits the first half of the email (before the @) so that we can * the other half
+            Console.WriteLine(String.Format("Login: entered: {0}@{1}", emailSplit[0].Substring(0, Characters) + new String('*', Characters), emailSplit[1]));
         }
 
         public void Pass()
         {
             passWord.Click();
             passWord.SendKeys(Environment.GetEnvironmentVariable("Password")); //using runsettings to get the password
+                        
             logIn.Click();
         }
 

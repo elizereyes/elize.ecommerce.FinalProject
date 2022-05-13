@@ -21,6 +21,8 @@ namespace ecommerce.finalproject.POMs
             //adding item into Cart 
             driver.FindElement(By.PartialLinkText(item)).Click();
             addCart.Click();
+       
+            Console.WriteLine(String.Format("AddItem: Item added: {0}", item)); //Writes in console what item was added
         }
 
     }

@@ -37,10 +37,10 @@ namespace ecommerce.finalproject.StepDefinitions
         [Given(@"I am logged in")]
         public void GivenThatIAmLoggedIn()
         {
-            LoginPass_POM Login = new LoginPass_POM(driver);
-            Login.Notice(); //dismisses the notice which states that the website is for demo purposes
-            Login.Login(); //log in with username
-            Login.Pass(); //finds and inputs the password
+            LoginPass_POM login = new LoginPass_POM(driver);
+            login.Notice(); //dismisses the notice which states that the website is for demo purposes
+            login.Login(); //log in with username
+            login.Pass(); //finds and inputs the password
 
             //waits so that the dashboard is displayed before moving on
             helper.WaitForElement(By.PartialLinkText("Dashboard"));
@@ -50,11 +50,11 @@ namespace ecommerce.finalproject.StepDefinitions
         public void WhenIAddAnItemIntoMyCart(string item)
         {           
             //After logging in, will navigate to the shop page
-            Navigate_POM Nav = new Navigate_POM(driver);
-            Shop_POM Add = new Shop_POM(driver);
-            Nav.Navigate("Shop");
-            Add.AddItem(item); //adds the item stated in the scenario to cart and views the cart
-            Nav.Navigate("Cart");
+            Navigate_POM nav = new Navigate_POM(driver);
+            Shop_POM add = new Shop_POM(driver);
+            nav.Navigate("Shop");
+            add.AddItem(item); //adds the item stated in the scenario to cart and views the cart
+            nav.Navigate("Cart");
         }
 
 
@@ -116,9 +116,9 @@ namespace ecommerce.finalproject.StepDefinitions
             Checkout_POM Checkout = new Checkout_POM(driver);
             int checkoutOrderNo = Checkout.GetOrderNo(); //finds the order number and writes out the results in the test
 
-            Navigate_POM Nav = new Navigate_POM(driver);
-            Nav.Navigate("My account");
-            Nav.Navigate("Orders");//navigates to the order history 
+            Navigate_POM nav = new Navigate_POM(driver);
+            nav.Navigate("My account");
+            nav.Navigate("Orders");//navigates to the order history 
            
             //waits until the url is in orders 
             helper.WaitToNav("orders");

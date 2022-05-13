@@ -34,17 +34,16 @@ namespace ecommerce.finalproject
         public void TearDown()
         {
             //removes any coupons and items from the cart so it's ready for the next test, in order to not restack
-            Navigate_POM Nav = new Navigate_POM(driver);
-            Nav.Navigate("Cart"); //clicks on cart
-            helper.WaitForElement(By.CssSelector(".entry-title")); //waits for Cart
+            Navigate_POM nav = new Navigate_POM(driver);
+            nav.Navigate("Cart"); //clicks on cart
 
             Cart_POM cart = new Cart_POM(driver);
-            cart.ClearCart();
+            cart.ClearCart(); //clears the cart and coupon so it's ready for the next test
 
-            Nav.Navigate("My account");
-            helper.WaitForElement(By.CssSelector(".woocommerce-MyAccount-content > p:nth-of-type(1) > a")); //waits for log out button to be on the page
+            nav.Navigate("My account");
 
-            Nav.Navigate("Log out");  //logs out
+            nav.Navigate("Log out");  //logs out
+            Thread.Sleep(1000);
 
             driver.Quit(); //Quits the WebDriver
         }
