@@ -17,6 +17,8 @@ namespace ecommerce.finalproject.POMs
         public IWebElement totalValue => driver.FindElement(By.CssSelector("strong > .amount.woocommerce-Price-amount"));
         public IWebElement shippingValue => driver.FindElement(By.CssSelector(".shipping > td > .amount.woocommerce-Price-amount"));
         public IWebElement proceedCheckout => driver.FindElement(By.LinkText("Proceed to checkout"));
+        public IWebElement removeCoupon => driver.FindElement(By.CssSelector(".woocommerce-remove-coupon"));
+        public IWebElement removeItem => driver.FindElement(By.CssSelector(".remove"));
 
         //Service Method
         public void EnterDiscount(String discount)
@@ -56,6 +58,23 @@ namespace ecommerce.finalproject.POMs
             //return both the total displayed value and the expected total, so that we can display extra information on the assert. 
             Decimal[] returnValues = { Decimal.Parse(totalValue.Text.Substring(1)), expectedTotal };
             return returnValues;
+        }
+
+        public void ClearCart()
+        {
+            if (driver.FindElements(By.CssSelector(".cart-empty")).Count == 0)//If cart isnt empty, .count to see if there is anything in the cart empty element
+            {
+                if (driver.FindElements(By.CssSelector(".cart-discount.coupon-edgewords > th")).Count != 0)//If coupon used
+                {
+                    //if a coupon is used then it will click the remove button (removing the coupon first, so that coupon doesn't restack on the next test)
+                    removeCoupon.Click();
+                    //and also clicks the delete button on the item in the cart
+                    removeItem.Click();
+                }
+                else //just removes the item if theres no coupon used
+                    //clicks the delete button on the item in the cart
+                    removeItem.Click();
+            }
         }
     }
 }

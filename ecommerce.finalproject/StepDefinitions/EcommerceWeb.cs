@@ -43,7 +43,7 @@ namespace ecommerce.finalproject.StepDefinitions
             Login.Pass(); //finds and inputs the password
 
             //waits so that the dashboard is displayed before moving on
-            helper.WaitForElement("Dashboard");
+            helper.WaitForElement(By.PartialLinkText("Dashboard"));
         }
         
         [When(@"I add an '([^']*)' into my cart")]
@@ -66,7 +66,7 @@ namespace ecommerce.finalproject.StepDefinitions
             discount.EnterDiscount(discountCode); //enters the coupon code which is named in the scenario
 
             //waits so that the discount is added before continuing (using partial link text Remove)
-            helper.WaitForElement("[Remove]");
+            helper.WaitForElement(By.PartialLinkText("[Remove]"));
         }
 
         [Then(@"my total should update correctly with a discount of '([^']*)'%")]
@@ -90,7 +90,7 @@ namespace ecommerce.finalproject.StepDefinitions
             //if the total isn't equals to the expected total then take a screenshot
             if (!values[0].Equals(values[1]))
             {
-                helper.Scroll("Proceed to checkout");
+                helper.Scroll(By.LinkText("Proceed to checkout"));
                 helper.Screenshot("Total");
                 Assert.Fail(String.Format("Total should be {0} but the Total was {1}", values[1], values[0]));
             }

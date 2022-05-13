@@ -24,12 +24,12 @@ namespace ecommerce.finalproject
             screenshot.SaveAsFile(@location, ScreenshotImageFormat.Png);
         }
 
-        public void Scroll(string textToScroll)
+        public void Scroll(By elementToScroll)
 
         {
             //scrolls down to the LinkText 
             var actions = new Actions(driver);
-            actions.MoveToElement(driver.FindElement(By.LinkText(textToScroll)));
+            actions.MoveToElement(driver.FindElement(elementToScroll));
             actions.Perform();
         }
 
@@ -41,14 +41,13 @@ namespace ecommerce.finalproject
 
         }
 
-        public void WaitForElement(string textToFind)
+        public void WaitForElement(By elementToFind)
         {
             //does a wait till the PartialLinkText is shown on the page
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            wait.Until(drv => drv.FindElement(By.PartialLinkText(textToFind)).Displayed);
+            wait.Until(drv => drv.FindElement(elementToFind).Displayed); //uses any type of element
         }
 
-       
     }
 }
 

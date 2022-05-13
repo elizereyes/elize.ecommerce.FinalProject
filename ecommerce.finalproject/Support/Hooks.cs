@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using ecommerce.finalproject.POMs;
 
 
 namespace ecommerce.finalproject
@@ -29,33 +30,21 @@ namespace ecommerce.finalproject
             driver.Url = BaseUrl;
         }
 
-
-        IWebElement removeCoupon => driver.FindElement(By.CssSelector(".woocommerce-remove-coupon"));
-        IWebElement removeItem => driver.FindElement(By.CssSelector(".remove"));
-
         [After]
         public void TearDown()
         {
             //removes any coupons and items from the cart so it's ready for the next test, in order to not restack
-            driver.FindElement(By.LinkText("Cart")).Click(); //clicks on cart
-           //helper.WaitForElement("Calculate shipping");
+            Navigate_POM Nav = new Navigate_POM(driver);
+            Nav.Navigate("Cart"); //clicks on cart
+            helper.WaitForElement(By.CssSelector(".entry-title")); //waits for Cart
 
-            if (driver.FindElements(By.CssSelector(".cart-empty")).Count == 0)//If cart isnt empty, .count to see if there is anything in the cart empty element
-            {
-                if (driver.FindElements(By.CssSelector(".cart-discount.coupon-edgewords > th")).Count != 0)//If coupon used
-                {
-                    //if a coupon is used then it will click the remove button (removing the coupon first, so that coupon doesn't restack on the next test)
-                    removeCoupon.Click();
-                    //and also clicks the delete button on the item in the cart
-                    removeItem.Click();
-                }
-                else //just removes the item if theres no coupon used
-                    //clicks the delete button on the item in the cart
-                    removeItem.Click();
-            }
+            Cart_POM cart = new Cart_POM(driver);
+            cart.ClearCart();
 
-            driver.FindElement(By.Id("menu-item-46")).Click(); //clicks on my account on the top nav
-            driver.FindElement(By.PartialLinkText("Log out")).Click(); //clicks on the logout 
+            Nav.Navigate("My account");
+            helper.WaitForElement(By.CssSelector(".woocommerce-MyAccount-content > p:nth-of-type(1) > a")); //waits for log out button to be on the page
+
+            Nav.Navigate("Log out");  //logs out
 
             driver.Quit(); //Quits the WebDriver
         }
