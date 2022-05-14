@@ -27,7 +27,7 @@ namespace ecommerce.finalproject
         public void Scroll(By elementToScroll)
 
         {
-            //scrolls down to the LinkText 
+            //scrolls down to the element
             var actions = new Actions(driver);
             actions.MoveToElement(driver.FindElement(elementToScroll));
             actions.Perform();
@@ -43,7 +43,7 @@ namespace ecommerce.finalproject
 
         public void WaitForElement(By elementToFind)
         {
-            //does a wait till the PartialLinkText is shown on the page
+            //does a wait till the element is shown on the page
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             wait.Until(drv => drv.FindElement(elementToFind).Displayed); //uses any type of element
         }
