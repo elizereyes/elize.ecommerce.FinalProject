@@ -24,7 +24,8 @@ namespace ecommerce.finalproject
         {
             driver = new ChromeDriver();
             _scenarioContext["webdriver"] = driver; //gets the driver
-
+            driver.Manage().Window.Maximize(); //maximizes the windows screen
+            
             //Navigates to the log in page
             string BaseUrl = Environment.GetEnvironmentVariable("BaseURL"); //uses the runsettings baseurl
             driver.Url = BaseUrl;
