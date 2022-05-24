@@ -21,7 +21,7 @@ namespace ecommerce.finalproject
           
             //puts the screenshot in this directory, adding the date and time as well as where it is
             String location = String.Format(@"C:\Users\ElizeReyes\Documents\Training\Ecommerce Project\FailedOn{0} {1}.png", error, DateTime.Now.ToString("yyyy-MM-dd h.mm.ss-tt"));
-            screenshot.SaveAsFile(@location, ScreenshotImageFormat.Png);
+            screenshot.SaveAsFile(@location, ScreenshotImageFormat.Png); //saves as a Png
         }
 
         public void Scroll(By elementToScroll)

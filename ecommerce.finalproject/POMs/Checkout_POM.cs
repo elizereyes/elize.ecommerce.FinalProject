@@ -13,8 +13,6 @@ namespace ecommerce.finalproject.POMs
             this.driver = driver;
         }
 
-       
-
         //Locators
         public IWebElement firstName => driver.FindElement(By.CssSelector("input#billing_first_name"));
         public IWebElement lastName => driver.FindElement(By.CssSelector("input#billing_last_name"));
@@ -29,6 +27,7 @@ namespace ecommerce.finalproject.POMs
         //Service Method
         public void BillingDetails(UserDetails userDetails)
         {
+            //sends the userDetails which is stated in the feature file
             firstName.Clear(); //makes sure the box is empty before continuing
             firstName.SendKeys(userDetails.firstName);
             lastName.Clear();
@@ -41,7 +40,10 @@ namespace ecommerce.finalproject.POMs
             postCode.SendKeys(userDetails.postCode);
             phoneNo.Clear();
             phoneNo.SendKeys(userDetails.phoneNo);
-            Thread.Sleep(2000); //waits for the check payments icon to be selected before continuing to place the order
+            
+            //performs a thread sleep so that the check payments icon can be displayed (which is usually preselected)
+            //to be selected before continuing to place the order
+            Thread.Sleep(2000); 
             placeOrder.Click();
         }
 
@@ -51,7 +53,7 @@ namespace ecommerce.finalproject.POMs
         {
 
             Console.WriteLine("Order number: " + orderNo.Text); //writes in the test what the order number is
-            return int.Parse(orderNo.Text); //parses the order as text
+            return int.Parse(orderNo.Text); //parses the order no(which is taken from the locator) as text
         }
 
 

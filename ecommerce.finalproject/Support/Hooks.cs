@@ -41,7 +41,7 @@ namespace ecommerce.finalproject
             Cart_POM cart = new Cart_POM(driver);
             cart.ClearCart(); //clears the cart and coupon so it's ready for the next test
 
-            nav.Navigate("My account");
+            nav.Navigate("My account"); //navigates to the My account navigation 
 
             nav.Navigate("Log out");  //logs out
             Thread.Sleep(1000);

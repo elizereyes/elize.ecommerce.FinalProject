@@ -33,15 +33,16 @@ namespace ecommerce.finalproject.POMs
             //writes in the console the login that's used but splits it to maintain privacy 
             string[] emailSplit = username.Split('@'); //the split takes before or after the @
             int Characters = emailSplit[0].Count() / 2; //this splits the first half of the email (before the @) so that we can * the other half
+            //Writes in the console the login email that has been provided, for privacy reasons I decided to split the email to only show the first half and then * the rest
             Console.WriteLine(String.Format("Login: entered: {0}@{1}", emailSplit[0].Substring(0, Characters) + new String('*', Characters), emailSplit[1]));
         }
 
         public void Pass()
         {
-            passWord.Click();
+            passWord.Click(); //clicks on the password field
             passWord.SendKeys(Environment.GetEnvironmentVariable("Password")); //using runsettings to get the password
                         
-            logIn.Click();
+            logIn.Click(); //clicks on the login button
         }
 
     }

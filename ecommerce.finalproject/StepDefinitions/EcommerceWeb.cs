@@ -76,23 +76,30 @@ namespace ecommerce.finalproject.StepDefinitions
            
             //this asserts that the discount value is correct, if not then will show a message
             Decimal percent = Decimal.Parse(discountPercent), couponValue = discount.GetCouponPercentValue();
+            
+            /*
+             * These 2 if statements will take a screenshot if the test fails and will show you where it has failed 
+             */
 
             //if the couponvalue isn't equals to the expected discount percent then take a screenshot
+            //to check that this screenshot method works, change 'percent' to a number e.g. 10
             if (!couponValue.Equals(percent))
             {
-                helper.Screenshot("Discount");
+                helper.Screenshot("Discount"); //takes a screenshot of the discount 
                 Assert.Fail(String.Format("Discount should be {0}% off but the discount was {1}% off", percent, couponValue));
             }
 
             Decimal[] values = discount.GetTotalValues();//checks the total of order
-                                                         //working out if the total value shown(values[0]) is the same as the expected total(values[1]), if not will show an error message
+                                                         //working out if the total value shown(values[0]) is the same as the expected total(values[1]),
+                                                         //if not will show an error message
 
-            //if the total isn't equals to the expected total then take a screenshot
+            //if the total isn't equals to the expected total then take a screenshot 
+            //to check if this screenshot method works, remove the ! in the if
             if (!values[0].Equals(values[1]))
             {
-                helper.Scroll(By.LinkText("Proceed to checkout"));
-                helper.Screenshot("Total");
-                Assert.Fail(String.Format("Total should be {0} but the Total was {1}", values[1], values[0]));
+                helper.Scroll(By.LinkText("Proceed to checkout")); //scrolls down to the Proceed to checkout button as the full total isn't shown without scrolling
+                helper.Screenshot("Total"); //takes a screenshot of the page
+                Assert.Fail(String.Format("Total should be {0} but the Total was {1}", values[1], values[0])); 
             }
         }
 
@@ -100,25 +107,28 @@ namespace ecommerce.finalproject.StepDefinitions
         [When(@"I provide valid billing details")]
         public void WhenIProvideValidBillingDetails()
         {
-            Cart_POM Cart = new Cart_POM(driver);
+            Cart_POM Cart = new Cart_POM(driver); 
             Checkout_POM Checkout = new Checkout_POM(driver);
-            Cart.ProceedCheckout();
-            Checkout.BillingDetails(_userDetails); //fills in the billing details and places the order
+            
+            Cart.ProceedCheckout(); //clicks on the 'Proceed to Checkout' button
+           
+            //fills in the billing details(using the user details provided in the feature file)  and places the order
+            Checkout.BillingDetails(_userDetails); 
 
         }
 
         [Then(@"my order should show up in the order history")]
         public void OrderinHistory()
         {
-            //waits for the driver url to change so that the Order number can be returned
+            //uses the helper class and waits for the driver url to change so that the Order number can be returned
             helper.WaitToNav("order-received");
 
             Checkout_POM Checkout = new Checkout_POM(driver);
             int checkoutOrderNo = Checkout.GetOrderNo(); //finds the order number and writes out the results in the test
 
-            Navigate_POM nav = new Navigate_POM(driver);
-            nav.Navigate("My account");
-            nav.Navigate("Orders");//navigates to the order history 
+            Navigate_POM nav = new Navigate_POM(driver); //Navigate POM uses the LinkText to find the page 
+            nav.Navigate("My account"); //navigates to My account in the TopNav
+            nav.Navigate("Orders");//navigates to the order history (from the sidebar)
            
             //waits until the url is in orders 
             helper.WaitToNav("orders");
@@ -127,7 +137,7 @@ namespace ecommerce.finalproject.StepDefinitions
             //if the latest order isn't in the order history then take a screenshot
             if (!History.IsOrderInHistory(checkoutOrderNo))//checks the order history to see if it matches the order no provided at checkout
             {
-                helper.Screenshot("History");
+                helper.Screenshot("History"); //Will take a screenshot of the History page
                 Assert.Fail("Latest Order isnt in Order History");
             }
 

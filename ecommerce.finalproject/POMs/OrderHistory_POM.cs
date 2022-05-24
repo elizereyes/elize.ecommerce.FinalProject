@@ -23,7 +23,9 @@ namespace ecommerce.finalproject.POMs
 
         public Boolean IsOrderInHistory(int checkoutOrderNo)
         {
+            //Writes in the Console that the latestOrder number is X and that the checkoutOrderNo is X
             Console.WriteLine(String.Format("IsOrderInHistory: latestOrderNo: {0} and checkoutOrderNo: {1}", latestOrderNo.Text, checkoutOrderNo));
+            
             //Checks that the latest order number from the Order History is the same as the checkout order number from when the order was placed
             if (int.Parse(latestOrderNo.Text.Substring(1)).Equals(checkoutOrderNo))
                 return true;

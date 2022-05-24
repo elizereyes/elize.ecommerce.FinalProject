@@ -41,13 +41,15 @@ namespace ecommerce.finalproject.POMs
         {
 
             //checks if the correct discount % is taken off 
-            //takes the coupon value(and * it by 100 to get the percentage) and gets everything after the £ symbol and then dividing it by the subtotal(by parsing the string as a decimal it can do division)
+            //takes the coupon value(and * it by 100 to get the percentage) and gets everything after the £ symbol
+            //and then dividing it by the subtotal(by parsing the string as a decimal it can do division)
             Decimal discount = (Decimal.Parse(couponValue.Text.Substring(1)) * 100) / Decimal.Parse(subtotalValue.Text.Substring(1));
+           
+            Console.WriteLine(String.Format("GetCouponPercentValue: returned {0}%", discount)); //The method returns this discount
 
-            //Testing if it works
+            //Testing if the maths works
             //String test15 = "£6.75";
             //Decimal discount = (Decimal.Parse(test15.Substring(1)) * 100) / Decimal.Parse(subtotalValue.Text.Substring(1));
-            Console.WriteLine(String.Format("GetCouponPercentValue: returned {0}%", discount)); //The method returns this discount
 
             return discount;
 
@@ -61,7 +63,8 @@ namespace ecommerce.finalproject.POMs
             //return both the total displayed value and the expected total, so that we can display extra information on the assert. 
             Decimal[] returnValues = { Decimal.Parse(totalValue.Text.Substring(1)), expectedTotal };
            
-            Console.WriteLine(String.Format("GetTotalValues: expectedTotal: £{0} and returnValues[0] was: £{1}", expectedTotal, returnValues[0])); //prints it in the console, returnvalues prints the actual total
+            //prints it in the console, returnvalues prints the actual total
+            Console.WriteLine(String.Format("GetTotalValues: expectedTotal: £{0} and returnValues[0] was: £{1}", expectedTotal, returnValues[0])); 
             return returnValues;
         }
 
@@ -88,6 +91,8 @@ namespace ecommerce.finalproject.POMs
                     removeItem.Click();
                 }
             }
+            Console.WriteLine("Cart has been cleared"); //writes in the console that the Clear Cart has worked 
+
         }
     }
 }

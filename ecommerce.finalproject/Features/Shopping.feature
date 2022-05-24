@@ -21,3 +21,6 @@ Scenario: Add an item to cart, checkout and complete the billing details
 	When I add an 'Hoodie with Logo' into my cart
 	And I provide valid billing details
 	Then my order should show up in the order history
+
+
+	#Gherkin Language which uses BDD
